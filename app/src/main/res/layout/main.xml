@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:htext="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main"
+    android:orientation="vertical"
+    android:background="@color/colorFON"
+    android:id="@+id/fon_main">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/liner_logo"
+        android:clickable="true"
+        android:onClick="open_menu">
+
+        <com.hanks.htextview.HTextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="30sp"
+            htext:animateType="anvil"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/text"
+        android:id="@+id/linearLayout3">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Целое число"
+            android:id="@+id/button_number"
+            android:layout_weight="1"
+            android:onClick="number_clik" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Дробь"
+            android:id="@+id/button_drob"
+            android:layout_weight="1"
+            android:onClick="drob_clik" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цвет"
+            android:id="@+id/button_color"
+            android:layout_weight="1"
+            android:onClick="color_click" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Буква"
+            android:id="@+id/button_bukva"
+            android:layout_weight="1"
+            android:onClick="bukva_clik" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Слово"
+            android:id="@+id/button_sovet"
+            android:layout_weight="1"
+            android:onClick="sovet_clik" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:id="@+id/ot_do"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginBottom="10dp"
+        android:layout_height="60dp">
+
+        <dmitriy.deomin.random.Lab_text
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/editText_name_ot"
+            android:layout_weight="1"
+            android:hint="От какого значения"
+            android:layout_gravity="left" />
+
+        <dmitriy.deomin.random.Lab_text
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/editText_name_do"
+            android:layout_weight="1"
+            android:hint="До какого значения"
+            android:layout_gravity="right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Генерировать"
+            android:id="@+id/button_generete"
+            android:layout_gravity="center_horizontal"
+            android:onClick="generate"
+            android:layout_weight="1"
+            android:layout_below="@+id/ot_do"
+            android:layout_above="@+id/adView" />
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"
+            android:layout_alignParentBottom="true">
+        </com.google.android.gms.ads.AdView>
+    </LinearLayout>
+
+</LinearLayout>

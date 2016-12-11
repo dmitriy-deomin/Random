@@ -1,0 +1,432 @@
+<resources>
+    <string name="app_name">Random</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7908895047124036/4792724702</string>
+
+    <string name="abaut">О программе</string>
+    <string name="mail">Для связи</string>
+    <string name="abaut_text">
+    \n
+        +++++++
+         \n
+         © 2016 , Deomin Dmitriy
+         \n
+         E-mail:58627@bk.ru
+        \n\n
+        libraries used:
+        \n
+         * color-picker-view
+         \n
+         com.github.danielnilsson9:color-picker-view:1.4.0@aar
+         \n
+         \n
+         * Floatlabel
+        \n
+        \n
+        * htextview
+        \n
+        hanks.xyz:htextview-library:0.1.5
+        \n
+    </string>
+    <string name="random">Random</string>
+
+    <string-array name="slova">
+        <item>а быть может</item>
+        <item>а вернее</item>
+        <item>а вернее сказать</item>
+        <item>а впрочем</item>
+        <item>а главное</item>
+        <item>а значит</item>
+        <item>а лучше сказать</item>
+        <item>а между прочим</item>
+        <item>а может быть</item>
+        <item>а наоборот</item>
+        <item>а например</item>
+        <item>а следовательно</item>
+        <item>а точнее</item>
+        <item>без всякого сомнения</item>
+        <item>без сомнения</item>
+        <item>безусловно</item>
+        <item>без шуток</item>
+        <item>бесспорно</item>
+        <item>благодарение богу</item>
+        <item>бог даст</item>
+        <item>более того</item>
+        <item>больше того</item>
+        <item>бывает</item>
+        <item>бывало</item>
+        <item>быть может</item>
+        <item>вдобавок ко всему прочему</item>
+        <item>верите ли</item>
+        <item> веришь ли</item>
+        <item> вернее</item>
+        <item>  вернее говоря</item>
+        <item> вернее сказать</item>
+        <item> верно</item>
+        <item> вероятнее всего</item>
+        <item>  вероятно</item>
+        <item>  вестимо</item>
+        <item>  видать</item>
+        <item> видимо</item>
+        <item> видит бог</item>
+        <item> видите ли</item>
+        <item> видишь ли</item>
+        <item> видно</item>
+        <item> вишь</item>
+        <item>  в конце концов</item>
+        <item> вне всякого сомнения</item>
+        <item> вне сомнения</item>
+        <item> в общем</item>
+        <item> в общем-то</item>
+        <item>  во всяком случае</item>
+        <item> во-вторых</item>
+        <item>  возможно</item>
+        <item>  воистину</item>
+        <item>  воля ваша</item>
+        <item>  воля твоя</item>
+        <item> вообрази</item>
+        <item>  вообрази себе</item>
+        <item> вообразите</item>
+        <item> вообразите себе</item>
+        <item> вообще</item>
+        <item>  вообще говоря</item>
+        <item>  вообще-то</item>
+        <item>  во-первых</item>
+        <item> в принципе</item>
+        <item> впрочем</item>
+        <item> в самом деле</item>
+        <item> в свою очередь</item>
+        <item>  в сущности</item>
+        <item> в сущности говоря</item>
+        <item> в-третьих</item>
+        <item>  в частности</item>
+        <item>  выходит</item>
+        <item>  главное</item>
+        <item>  главное дело</item>
+        <item>  главным делом</item>
+        <item>  говорят</item>
+        <item>  грешным делом</item>
+        <item>  грубо говоря</item>
+        <item>  да и то сказать</item>
+        <item> дай бог память</item>
+        <item> далее</item>
+        <item> действительно</item>
+        <item> делать нечего</item>
+        <item> должно быть</item>
+        <item>  допустим</item>
+        <item>  другими словами</item>
+        <item>  если позволите</item>
+        <item>  если позволишь</item>
+        <item>  если угодно</item>
+        <item> если хотите</item>
+        <item> если хотите знать</item>
+        <item> если хочешь</item>
+        <item> если хочешь знать</item>
+        <item> естественно</item>
+        <item> еще лучше</item>
+        <item>  еще того лучше</item>
+        <item>  еще того хуже</item>
+        <item>   еще хуже</item>
+        <item>   жалко</item>
+        <item>  жаль</item>
+        <item>  знаете</item>
+        <item>  знаете ли</item>
+        <item>  знаешь</item>
+        <item>  знаешь ли</item>
+        <item> знамо</item>
+        <item>  знамо дело</item>
+        <item> знать</item>
+        <item>  значит</item>
+        <item>  значится</item>
+        <item>  и вообще</item>
+        <item>  известно</item>
+        <item>  и кроме того</item>
+        <item>  и лучше того</item>
+        <item> и наоборот</item>
+        <item> иначе говоря</item>
+        <item>  иначе сказать</item>
+        <item>  и однако</item>
+        <item>  и правда</item>
+        <item>  истинный бог</item>
+        <item>  и таким образом</item>
+        <item>  и того лучше</item>
+        <item>  и того хуже</item>
+        <item>  и хуже того</item>
+        <item>  кажется</item>
+        <item> кажись</item>
+        <item>  казалось</item>
+        <item> казалось бы</item>
+        <item> как бы там ни было</item>
+        <item>  как бы то ни было</item>
+        <item>  как вам известно</item>
+        <item>  как видите</item>
+        <item> как видишь</item>
+        <item>  как видно</item>
+        <item>   как водится</item>
+        <item>  как всегда</item>
+        <item>  как выяснилось</item>
+        <item>  как выясняется</item>
+        <item>  как говорилось</item>
+        <item>  как говорится</item>
+        <item>  как говорят</item>
+        <item>  как знать</item>
+        <item>  как известно</item>
+        <item> как исключение</item>
+        <item>  как на заказ</item>
+        <item> как назло</item>
+        <item> как например</item>
+        <item> как нарочно</item>
+        <item> как ни говори</item>
+        <item> как ни говорите</item>
+        <item> как ни странно</item>
+        <item> как обычно</item>
+        <item> как оказалось</item>
+        <item> как оказывается</item>
+        <item> как перед Богом</item>
+        <item> как по заказу</item>
+        <item>как полагается</item>
+        <item> как положено</item>
+        <item> как правило</item>
+        <item> как принято</item>
+        <item> как принято говорить</item>
+        <item> как сказано</item>
+        <item> как сказать</item>
+        <item>  как следствие</item>
+        <item>  как хотите</item>
+        <item>  как хочешь</item>
+        <item>  как это ни странно</item>
+        <item> к вашему сведению</item>
+        <item> к несчастью</item>
+        <item> ко всему прочему</item>
+        <item> к огорчению</item>
+        <item> конечно</item>
+        <item>  коротко говоря</item>
+        <item>  короче</item>
+        <item>  короче говоря</item>
+        <item> к примеру</item>
+        <item>к примеру сказать</item>
+        <item> к прискорбию</item>
+        <item> к радости</item>
+        <item> к радости своей</item>
+        <item> кроме всего прочего</item>
+        <item> кроме того</item>
+        <item> кроме этого</item>
+        <item> кроме шуток</item>
+        <item> к слову</item>
+        <item> к слову сказать</item>
+        <item> к сожалению</item>
+        <item> кстати</item>
+        <item> кстати говоря</item>
+        <item>кстати сказать</item>
+        <item>  к стыду</item>
+        <item> к стыду своему</item>
+        <item> к счастью</item>
+        <item> к твоему сведению</item>
+        <item> к удивлению</item>
+        <item> к ужасу</item>
+        <item>  к чести</item>
+        <item> легко сказать</item>
+        <item>лучше</item>
+        <item> лучше сказать</item>
+        <item>  мало сказать</item>
+        <item> мало того</item>
+        <item>  между нами</item>
+        <item>  между нами говоря</item>
+        <item>  между прочим</item>
+        <item> может</item>
+        <item>  может быть</item>
+        <item> может статься</item>
+        <item> можно подумать</item>
+        <item> можно сказать</item>
+        <item> мол</item>
+        <item> мягко выражаясь</item>
+        <item> мягко говоря</item>
+        <item>  на беду</item>
+        <item>  на ваш взгляд</item>
+        <item>  наверно</item>
+        <item> наверное</item>
+        <item> надеюсь</item>
+        <item> надо быть</item>
+        <item>  надо думать</item>
+        <item> надо полагать</item>
+        <item>  называется</item>
+        <item>  наконец</item>
+        <item>  на мой взгляд</item>
+        <item>  на несчастье</item>
+        <item>  наоборот</item>
+        <item>  на первый взгляд</item>
+        <item>  например</item>
+        <item>  напротив</item>
+        <item>  на самом деле</item>
+        <item>  на счастье</item>
+        <item>  на твой взгляд</item>
+        <item>  натурально</item>
+        <item> на худой конец</item>
+        <item> небось</item>
+        <item>  несомненно</item>
+        <item>  нет слов</item>
+        <item> нечего сказать</item>
+        <item> ничего не скажешь</item>
+        <item> но кроме того</item>
+        <item>  но вообще-то</item>
+        <item>  однако</item>
+        <item>  однако же</item>
+        <item>одним словом</item>
+        <item> оказывается</item>
+        <item>  определенно</item>
+        <item> откровенно</item>
+        <item>  откровенно говоря</item>
+        <item> откровенно сказать</item>
+        <item> очевидно</item>
+        <item>  по-вашему</item>
+        <item> по вашему мнению</item>
+        <item> поверите ли</item>
+        <item> поверишь ли</item>
+        <item>  по-видимому</item>
+        <item> по видимости</item>
+        <item> по всей вероятности</item>
+        <item>  по всей видимости</item>
+        <item> по данным</item>
+        <item>  поди</item>
+        <item>подумать только</item>
+        <item> пожалуй</item>
+        <item> пожалуйста</item>
+        <item>  по замыслу</item>
+        <item>  позволь</item>
+        <item>  позвольте</item>
+        <item> по идее</item>
+        <item>  по-ихнему</item>
+        <item> по крайней мере</item>
+        <item> положим</item>
+        <item>  положимте</item>
+        <item> получается</item>
+        <item> помилуй</item>
+        <item>  помилуйте</item>
+        <item>  помимо всего</item>
+        <item> помимо всего прочего</item>
+        <item> помимо того</item>
+        <item> помимо этого</item>
+        <item> по мне</item>
+        <item>  по мнению</item>
+        <item>  помнится</item>
+        <item>  по-моему</item>
+        <item> по моему мнению</item>
+        <item> по-нашему</item>
+        <item> понятно</item>
+        <item> понятное дело</item>
+        <item> по обыкновению</item>
+        <item>  по обычаю</item>
+        <item> по определению</item>
+        <item>  по правде</item>
+        <item> по правде говоря</item>
+        <item>  по правде сказать</item>
+        <item> по преданию</item>
+        <item>  по прогнозам</item>
+        <item> попросту говоря</item>
+        <item>  попросту сказать</item>
+        <item>  по сведениям</item>
+        <item>  по своему обыкновению</item>
+        <item>  по словам</item>
+        <item> по слухам</item>
+        <item>  по совести</item>
+        <item>  по совести говоря</item>
+        <item> по совести сказать</item>
+        <item>  по сообщению</item>
+        <item> по сообщениям</item>
+        <item>  по справедливости</item>
+        <item>  по справедливости говоря</item>
+        <item> по сути</item>
+        <item>  по сути дела</item>
+        <item>по сути говоря</item>
+        <item> по существу</item>
+        <item> по существу говоря</item>
+        <item> по счастью</item>
+        <item> по-твоему</item>
+        <item>  по твоему мнению</item>
+        <item>  похоже</item>
+        <item> по чести говоря</item>
+        <item>  по чести признаться</item>
+        <item> по чести сказать</item>
+        <item> почитай</item>
+        <item> правда</item>
+        <item> правду говоря</item>
+        <item> правду сказать</item>
+        <item>  правильнее</item>
+        <item> правильнее говоря</item>
+        <item> правильнее сказать</item>
+        <item> право</item>
+        <item> право слово</item>
+        <item> предположим</item>
+        <item>  предположительно</item>
+        <item>  представь</item>
+        <item> представь себе</item>
+        <item> представьте</item>
+        <item> представьте себе</item>
+        <item> прежде всего</item>
+        <item>  признаться</item>
+        <item>  признаться сказать</item>
+        <item> признаюсь</item>
+        <item>  примерно</item>
+        <item> против обыкновения</item>
+        <item> проще говоря</item>
+        <item> проще сказать</item>
+        <item> разумеется</item>
+        <item> само собой</item>
+        <item> само собой разумеется</item>
+        <item> с вашего позволения</item>
+        <item> с вашего разрешения</item>
+        <item> сверх того</item>
+        <item> с другой стороны</item>
+        <item> серьезно</item>
+        <item> скажем</item>
+        <item> сказать по правде</item>
+        <item> сказать по совести</item>
+        <item> сказать по чести</item>
+        <item> скорее</item>
+        <item> скорее всего</item>
+        <item> слава богу</item>
+        <item> следовательно</item>
+        <item>слов нет</item>
+        <item>словом</item>
+        <item> случаем</item>
+        <item> случайно</item>
+        <item> слыхать</item>
+        <item> слышно</item>
+        <item> слышь</item>
+        <item> слышь ты</item>
+        <item>  с моей точки зрения</item>
+        <item>  собственно</item>
+        <item>  собственно говоря</item>
+        <item>  с одной стороны</item>
+        <item> соответственно</item>
+        <item>  со своей стороны</item>
+        <item>  с позволения сказать</item>
+        <item>  спрашивается</item>
+        <item>  стало быть</item>
+        <item> с твоего позволения</item>
+        <item> с твоего разрешения</item>
+        <item>  с точки зрения</item>
+        <item>  строго говоря</item>
+        <item>  судя по всему</item>
+        <item>  так</item>
+        <item>  таким образом</item>
+        <item> так или иначе</item>
+        <item>  так сказать</item>
+        <item>  точнее</item>
+        <item>  точнее говоря</item>
+        <item>  точнее сказать</item>
+        <item>  факт</item>
+        <item>  хорошо</item>
+        <item>  чай</item>
+        <item>  часом</item>
+        <item>   чего доброго</item>
+        <item>  что и говорить</item>
+        <item>  что называется</item>
+        <item>   что ни говори</item>
+        <item>  что ни говорите</item>
+        <item>  шутка ли</item>
+        <item>   шутка ли сказать</item>
+        <item>  шутка сказать</item>
+        <item> ясное дел</item>
+    </string-array>
+
+</resources>
