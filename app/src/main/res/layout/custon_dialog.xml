@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/transparent"
     android:id="@+id/dialog_fon"
@@ -11,69 +11,71 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
 
-        <com.hanks.htextview.HTextView
+        <dmitriy.deomin.random.AutoScaleTextView
                 android:id="@+id/text_dialog"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:gravity="center"
-                android:textSize="28dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="20dp"
-                android:textColor="@android:color/black" />
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_below="@+id/text_dialog"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/button_dialog_share"
-                    android:background="@drawable/abc_ic_menu_share_mtrl_alpha" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/button_dialog_rand"
-                    android:background="@android:drawable/stat_notify_sync" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/button_dialog_copy"
-                    android:background="@drawable/abc_ic_menu_copy_mtrl_am_alpha" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                android:textSize="28dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                app:minTextSize="17dp"
+            android:gravity="center"
+            android:maxLines="30"
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:layout_below="@+id/text_dialog"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+        android:layout_weight="1"
+        android:gravity="center">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/button_dialog_share"
+                android:background="@drawable/abc_ic_menu_share_mtrl_alpha" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/button_dialog_rand"
+                android:background="@android:drawable/stat_notify_sync" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/button_dialog_copy"
+                android:background="@drawable/abc_ic_menu_copy_mtrl_am_alpha" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+</LinearLayout>

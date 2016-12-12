@@ -319,6 +319,8 @@ public class Lab_text extends FrameLayout {
         int childTop = getPaddingTop();
         final int childBottom = bottom - top - getPaddingBottom();
 
+        mLabel.setPadding(0,0,15,0);
+
         layoutChild(mLabel, childLeft+10, childTop, childRight, childBottom);
         layoutChild(mEditText, childLeft, childTop + mLabel.getMeasuredHeight()+20, childRight, childBottom);
     }

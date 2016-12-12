@@ -3,9 +3,11 @@ package dmitriy.deomin.random;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,14 +18,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import dmitriy.deomin.random.tilteffect.TiltEffectAttacher;
 
@@ -56,6 +63,9 @@ public class Main extends Activity implements View.OnClickListener {
 
     Lab_text ot_n;
     Lab_text do_n;
+    Lab_text size_numbers;
+
+
 
     String  rnd;
     String vibor;
@@ -84,8 +94,8 @@ public class Main extends Activity implements View.OnClickListener {
 
     TextView time;
 
-    // int width_d;
-     //int heigh_d;
+     int width_d;
+     int heigh_d;
 
     //  static public Typeface face;
 
@@ -109,30 +119,30 @@ public class Main extends Activity implements View.OnClickListener {
         //во весь экран
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-//        width_d = display.getWidth();
-//        heigh_d = display.getHeight();
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        width_d = display.getWidth();
+        heigh_d = display.getHeight();
 
 
         //  face = Typeface.createFromAsset(getAssets(),"fonts/Tweed.ttf");
 
-        //FON = getResources().getColor(R.color.colorFON)
-
-        FON = random_color();
-
-
-
-        ((LinearLayout)findViewById(R.id.fon_main)).setBackgroundColor(FON);
-
 
         ot_n = (Lab_text) findViewById(R.id.editText_name_ot);
         do_n  =(Lab_text) findViewById(R.id.editText_name_do);
+        size_numbers = (Lab_text) findViewById(R.id.editText_size_rnd);
 
         ot_n.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         do_n.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        size_numbers.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        do_n.getLabel().setGravity(Gravity.RIGHT);
+        do_n.getEditText().setGravity(Gravity.RIGHT);
+        size_numbers.getLabel().setGravity(Gravity.CENTER_HORIZONTAL);
+        size_numbers.getEditText().setGravity(Gravity.CENTER_HORIZONTAL);
 
         ot_n.getEditText().setText((save_read("ot_n").equals("")?"0":(save_read("ot_n"))));
         do_n.getEditText().setText((save_read("do_n").equals("")?"100":(save_read("do_n"))));
+        size_numbers.getEditText().setText((save_read("size_numbers").equals("")?"1":(save_read("size_numbers"))));
 
         ot_n.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -169,8 +179,58 @@ public class Main extends Activity implements View.OnClickListener {
             }
         });
 
+        size_numbers.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    if(Integer.valueOf(s.toString())==0){
+                        Toast.makeText(getApplicationContext(),"Число должно быть больше 0",Toast.LENGTH_SHORT).show();
+                        size_numbers.getEditText().setText("1");
+                        save_value("size_numbers",s.toString());
+                    }
+                }else {
+                    //если не ввели в течении 3х сек нечего установим 1
+                   startLoop();
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
+        //слушаем сигналы
+ //***************************************************************************
+        //фильтр для нашего сигнала
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("Key_signala_stav_1_v_pizdu");
+
+        //приёмник  сигналов
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //если чел нечего так и не ввел то поставим 1
+                if(size_numbers.getEditText().getText().toString().length()==0){
+                    save_value("size_numbers","1");
+                    size_numbers.getEditText().setText("1");
+                }else{
+                    save_value("size_numbers",size_numbers.getEditText().getText().toString());
+                }
+
+            }
+        };
+
+        //регистрируем приёмник
+        registerReceiver(broadcastReceiver,intentFilter);
+//************************************************************************************
 
 
 
@@ -206,9 +266,7 @@ public class Main extends Activity implements View.OnClickListener {
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.LINE);
-        text_random.animateText(String.valueOf(rnd));
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -257,8 +315,59 @@ public class Main extends Activity implements View.OnClickListener {
         }
 
 
+        //посмотрим если есть сохранёный свет фона поставим его иначе рандомно
+        if(save_read("fon_color").length()>0){
+            FON = Integer.valueOf(save_read("fon_color"));
+        }else{
+            FON = random_color();
+        }
+        //поставим цвет фону
+        ((LinearLayout)findViewById(R.id.fon_main)).setBackgroundColor(FON);
+        number_b.setBackgroundColor(FON);
+        color_b.setBackgroundColor(FON);
+        drob_b.setBackgroundColor(FON);
+        bukva_b.setBackgroundColor(FON);
+        sovet_b.setBackgroundColor(FON);
+        //
+
 
         time = (TextView)findViewById(R.id.time);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //поставим рандомный цвет фону
+                FON = random_color();
+                ((LinearLayout)findViewById(R.id.fon_main)).setBackgroundColor(FON);
+                number_b.setBackgroundColor(FON);
+                color_b.setBackgroundColor(FON);
+                drob_b.setBackgroundColor(FON);
+                bukva_b.setBackgroundColor(FON);
+                sovet_b.setBackgroundColor(FON);
+                //
+
+            }
+        });
+        time.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //если есть сохранёный проверим его с текущим если совпадает то уберём его вообще
+                if(save_read("fon_color").equals(String.valueOf(FON))){
+                    save_value("fon_color","");
+                    Toast.makeText(getApplicationContext(),"Фон будет рандомный",Toast.LENGTH_SHORT).show();
+                }else{
+                    save_value("fon_color",String.valueOf(FON));
+                    Toast.makeText(getApplicationContext(),"Фон сохранён",Toast.LENGTH_SHORT).show();
+                    ((LinearLayout)findViewById(R.id.fon_main)).setBackgroundColor(FON);
+                    number_b.setBackgroundColor(FON);
+                    color_b.setBackgroundColor(FON);
+                    drob_b.setBackgroundColor(FON);
+                    bukva_b.setBackgroundColor(FON);
+                    sovet_b.setBackgroundColor(FON);
+                    //
+                }
+                return true;
+            }
+        });
 
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -273,6 +382,25 @@ public class Main extends Activity implements View.OnClickListener {
             }
         });
     }
+
+    public void startLoop() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                //пошлём сигнал что надо дело делать
+                Intent i  = new Intent("Key_signala_stav_1_v_pizdu");
+                sendBroadcast(i);
+            }
+        }).start();
+    }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -319,10 +447,9 @@ public class Main extends Activity implements View.OnClickListener {
     }
 
     public int random_color(){
-        Random rand = new Random();
-        int r = rand.nextInt(255);
-        int g = rand.nextInt(255);
-        int b = rand.nextInt(255);
+        int r = random_nomer(0,255);
+        int g = random_nomer(0,255);
+        int b = random_nomer(0,255);
         return Color.rgb(r, g, b);
     }
 
@@ -383,14 +510,6 @@ public class Main extends Activity implements View.OnClickListener {
         }
     }
 
-    public String getCurrDate()
-    {
-        String dt;
-        Date cal = Calendar.getInstance().getTime();
-        dt = cal.toLocaleString();
-        return dt;
-    }
-
 
     public void number_function(){
 
@@ -401,17 +520,26 @@ public class Main extends Activity implements View.OnClickListener {
         double d = Double.valueOf(do_n.getEditText().getText().toString());
         int max = (int)d;
 
-        final Integer integer = random_nomer(min,max);
+       // final Integer integer = random_nomer(min,max);
 
-        rnd = integer.toString();
+        rnd = "";
+
+        for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
+            if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
+                rnd = rnd+String.valueOf(random_nomer(min,max))+"("+String.valueOf(i+1)+").";
+            }else {
+                rnd = rnd+String.valueOf(random_nomer(min,max))+"("+String.valueOf(i+1)+"),";
+            }
+
+        }
+
 
         //dialog****************************************************************
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.LINE);
-        text_random.animateText(String.valueOf(rnd));
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setMovementMethod(new ScrollingMovementMethod());
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -419,9 +547,11 @@ public class Main extends Activity implements View.OnClickListener {
         dialog_sare.setOnClickListener(this);
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
-        ((RelativeLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
+        ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
+        layout.setMinimumWidth(width_d);
+        layout.setMinimumHeight(width_d/2);
         AlertDialog.Builder bulder = new AlertDialog.Builder(this);
         bulder.setView(layout);
         alert = bulder.create();
@@ -430,18 +560,29 @@ public class Main extends Activity implements View.OnClickListener {
     }
 
     public void color_function(){
-        final Integer integer = random_color();
 
-        rnd = integer.toString();
+
+        rnd = "";
+
+
+        for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
+
+            String col = String.valueOf(random_color());
+
+            if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
+                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>.";
+            }else {
+                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>,";
+            }
+        }
+
+
 
         //dialog****************************************************************
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
-
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.RAINBOW);
-        text_random.setBackgroundColor(integer);
-        text_random.animateText(rnd); // animate
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setMovementMethod(new ScrollingMovementMethod());
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(Html.fromHtml(rnd));
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -450,7 +591,7 @@ public class Main extends Activity implements View.OnClickListener {
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
 
-        ((RelativeLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(integer);
+        ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
 
@@ -460,14 +601,14 @@ public class Main extends Activity implements View.OnClickListener {
         alert.show();
     }
 
-    Spannable color_vibor(String value,Integer color){
+    public Spannable color_vibor(String value,int col) {
         Spannable text;
         text = new SpannableString(value);
-        text.setSpan(new ForegroundColorSpan(color), 29, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new ForegroundColorSpan(col), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //****************************************************
         return text;
-    }
 
+    }
     public void drob_function(){
         final double dobl = random_drob((Double.valueOf(ot_n.getEditText().getText().toString())), (Double.valueOf(do_n.getEditText().getText().toString())));
 
@@ -477,9 +618,7 @@ public class Main extends Activity implements View.OnClickListener {
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.ANVIL);
-        text_random.animateText(rnd); // animate
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -487,7 +626,7 @@ public class Main extends Activity implements View.OnClickListener {
         dialog_sare.setOnClickListener(this);
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
-        ((RelativeLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
+        ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
 
@@ -523,7 +662,7 @@ public class Main extends Activity implements View.OnClickListener {
         dialog_sare.setOnClickListener(this);
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
-        ((RelativeLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
+        ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
 
@@ -552,9 +691,7 @@ public class Main extends Activity implements View.OnClickListener {
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.SCALE);
-        text_random.animateText(rnd); // animate
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -562,7 +699,7 @@ public class Main extends Activity implements View.OnClickListener {
         dialog_sare.setOnClickListener(this);
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
-        ((RelativeLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
+        ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
         AlertDialog.Builder bulder = new AlertDialog.Builder(this);
@@ -708,18 +845,43 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
+    public void open_info(View view) {
 
-
-    public void open_menu(View view) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
-        final View content = LayoutInflater.from(Main.this).inflate(R.layout.custom_dialog_menu, null);
+        final View content = LayoutInflater.from(Main.this).inflate(R.layout.info_text, null);
+        content.setMinimumHeight(heigh_d-5);
+        content.setMinimumWidth(width_d-5);
         builder.setView(content);
         final AlertDialog al= builder.create();
         al.show();
+        ((TextView) content.findViewById(R.id.text_info_la)).setText(getString(R.string.info_text));
+        ((TextView) content.findViewById(R.id.text_info_la)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                al.dismiss();
+            }
+        });
+        ((LinearLayout)content.findViewById(R.id.fon_text_info)).setBackgroundColor(FON);
+
+    }
+
+
+
+    public void open_menu(View view) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+        final View content = LayoutInflater.from(Main.this).inflate(R.layout.custom_dialog_menu, null);
+        content.setMinimumHeight(heigh_d/3);
+        content.setMinimumWidth(heigh_d/3);
+        builder.setView(content);
+        final AlertDialog al= builder.create();
+        al.show();
+        ((LinearLayout)content.findViewById(R.id.fon_dialog_menu)).setBackgroundColor(FON);
 
         ((Button)content.findViewById(R.id.MENU_ID_ABOUT)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                al.dismiss();
                 Intent i = new Intent(context,Abaut.class);
                 startActivity(i);
             }
@@ -739,8 +901,15 @@ public class Main extends Activity implements View.OnClickListener {
 
             }
         });
+        ((Button)content.findViewById(R.id.button_info)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                al.dismiss();
+                open_info(v);
+            }
+        });
 
-        ((RelativeLayout)content.findViewById(R.id.fon_dialog_menu)).setBackgroundColor(FON);
+
 
     }
 

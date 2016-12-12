@@ -23,15 +23,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
         android:id="@+id/liner_logo"
         android:clickable="true"
-        android:onClick="open_menu">
+        android:onClick="open_menu"
+        android:layout_height="60dp">
 
         <com.hanks.htextview.HTextView
             android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:gravity="center"
             android:textSize="30sp"
             htext:animateType="anvil"
@@ -49,7 +49,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Целое число"
+            android:text="Число"
             android:id="@+id/button_number"
             android:layout_weight="1"
             android:onClick="number_clik" />
@@ -90,26 +90,39 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <dmitriy.deomin.random.Lab_text
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_size_rnd"
+            android:layout_weight="1"
+            android:hint="Количество"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:id="@+id/ot_do"
         android:layout_below="@+id/linearLayout3"
-        android:layout_marginBottom="10dp"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
 
         <dmitriy.deomin.random.Lab_text
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/editText_name_ot"
             android:layout_weight="1"
             android:hint="От какого значения"
-            android:layout_gravity="left" />
+            android:paddingLeft="5dp" />
 
         <dmitriy.deomin.random.Lab_text
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/editText_name_do"
             android:layout_weight="1"
             android:hint="До какого значения"
-            android:layout_gravity="right" />
+            android:paddingRight="5dp" />
 
     </LinearLayout>
 
