@@ -11,7 +11,8 @@
          © 2016 , Deomin Dmitriy
          \n
          E-mail:58627@bk.ru
-        \n\n
+        \n
+        \n
         libraries used:
         \n
          * color-picker-view
@@ -25,6 +26,10 @@
         * htextview
         \n
         hanks.xyz:htextview-library:0.1.5
+        \n
+        \n
+        AutoScaleTextView
+        \n
         \n
     </string>
     <string name="random">Random</string>

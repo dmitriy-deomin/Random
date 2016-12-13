@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,10 +39,13 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -126,6 +131,21 @@ public class Main extends Activity implements View.OnClickListener {
 
         //  face = Typeface.createFromAsset(getAssets(),"fonts/Tweed.ttf");
 
+        //при первом запуске проги поставим дефолтные значения
+        if(save_read("celka").length()==0){
+            //разделитель списка
+            save_value("razdelitel_spiska",",");
+            //символ в конце списка
+            save_value("conec_spiska",".");
+            //нумерация списка (если текст есть то нумерация работает)
+            save_value("num_spisok","est");
+            //дополнительный текст к нумерации
+            save_value("text_k_numeracii","");
+
+            //вскрыто
+            save_value("celka","slomana");
+        }
+
 
         ot_n = (Lab_text) findViewById(R.id.editText_name_ot);
         do_n  =(Lab_text) findViewById(R.id.editText_name_do);
@@ -192,7 +212,10 @@ public class Main extends Activity implements View.OnClickListener {
                         Toast.makeText(getApplicationContext(),"Число должно быть больше 0",Toast.LENGTH_SHORT).show();
                         size_numbers.getEditText().setText("1");
                         save_value("size_numbers",s.toString());
+                    }else {
+                        save_value("size_numbers",s.toString());
                     }
+
                 }else {
                     //если не ввели в течении 3х сек нечего установим 1
                    startLoop();
@@ -513,22 +536,26 @@ public class Main extends Activity implements View.OnClickListener {
 
     public void number_function(){
 
-        //  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd  HH:mm");
+        rnd = "";
+        String razdelitel = save_read("razdelitel_spiska");
+        String conec_spisca = save_read("conec_spiska");
+        String text_k_numeracii = save_read("text_k_numeracii");
+        boolean numer = save_read("num_spisok").length()>0;
+
+
 
         double o = Double.valueOf(ot_n.getEditText().getText().toString());
         int min = (int)o;
         double d = Double.valueOf(do_n.getEditText().getText().toString());
         int max = (int)d;
 
-       // final Integer integer = random_nomer(min,max);
 
-        rnd = "";
 
         for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
             if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
-                rnd = rnd+String.valueOf(random_nomer(min,max))+"("+String.valueOf(i+1)+").";
+                rnd = rnd+String.valueOf(random_nomer(min,max))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+conec_spisca:conec_spisca);
             }else {
-                rnd = rnd+String.valueOf(random_nomer(min,max))+"("+String.valueOf(i+1)+"),";
+                rnd = rnd+String.valueOf(random_nomer(min,max))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+razdelitel:razdelitel);
             }
 
         }
@@ -552,7 +579,7 @@ public class Main extends Activity implements View.OnClickListener {
 
         layout.setMinimumWidth(width_d);
         layout.setMinimumHeight(width_d/2);
-        AlertDialog.Builder bulder = new AlertDialog.Builder(this);
+        AlertDialog.Builder bulder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         bulder.setView(layout);
         alert = bulder.create();
         alert.show();
@@ -563,6 +590,11 @@ public class Main extends Activity implements View.OnClickListener {
 
 
         rnd = "";
+        String razdelitel = save_read("razdelitel_spiska");
+        String conec_spisca = save_read("conec_spiska");
+        String text_k_numeracii = save_read("text_k_numeracii");
+        boolean numer = save_read("num_spisok").length()>0;
+
 
 
         for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
@@ -570,9 +602,9 @@ public class Main extends Activity implements View.OnClickListener {
             String col = String.valueOf(random_color());
 
             if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
-                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>.";
+                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>"+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+conec_spisca:conec_spisca);
             }else {
-                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>,";
+                rnd = rnd+"<font color=\'"+col+"\'>"+col+"</font>"+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+razdelitel:razdelitel);
             }
         }
 
@@ -595,29 +627,41 @@ public class Main extends Activity implements View.OnClickListener {
         //**********************************************************************
 
 
-        AlertDialog.Builder bulder = new AlertDialog.Builder(this);
+        AlertDialog.Builder bulder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         bulder.setView(layout);
         alert =  bulder.create();
         alert.show();
     }
 
-    public Spannable color_vibor(String value,int col) {
-        Spannable text;
-        text = new SpannableString(value);
-        text.setSpan(new ForegroundColorSpan(col), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //****************************************************
-        return text;
-
-    }
     public void drob_function(){
-        final double dobl = random_drob((Double.valueOf(ot_n.getEditText().getText().toString())), (Double.valueOf(do_n.getEditText().getText().toString())));
 
-        rnd = String.valueOf(dobl);
+        rnd = "";
+        String razdelitel = save_read("razdelitel_spiska");
+        String conec_spisca = save_read("conec_spiska");
+        String text_k_numeracii = save_read("text_k_numeracii");
+        boolean numer = save_read("num_spisok").length()>0;
+
+
+        double o = Double.valueOf(ot_n.getEditText().getText().toString());
+
+        double d = Double.valueOf(do_n.getEditText().getText().toString());
+
+
+        for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
+            if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
+                rnd = rnd+String.valueOf(random_drob(o, d))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+conec_spisca:conec_spisca);
+            }else {
+                rnd = rnd+String.valueOf(random_drob(o, d))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+razdelitel:razdelitel);
+            }
+
+        }
+
 
         //dialog****************************************************************
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setMovementMethod(new ScrollingMovementMethod());
         ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
@@ -629,8 +673,9 @@ public class Main extends Activity implements View.OnClickListener {
         ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
-
-        AlertDialog.Builder bulder = new AlertDialog.Builder(this);
+        layout.setMinimumWidth(width_d);
+        layout.setMinimumHeight(width_d/2);
+        AlertDialog.Builder bulder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         bulder.setView(layout);
         alert =  bulder.create();
         alert.show();
@@ -638,23 +683,37 @@ public class Main extends Activity implements View.OnClickListener {
 
     public void bukva_function(){
 
-        final Integer integer = random_nomer(0, 32);
 
+        rnd = "";
+        String razdelitel = save_read("razdelitel_spiska");
+        String conec_spisca = save_read("conec_spiska");
+        String text_k_numeracii = save_read("text_k_numeracii");
+        boolean numer = save_read("num_spisok").length()>0;
+
+
+        //Русский алфавит
         String bukvi = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        int min = 0;
+        int max = bukvi.length()-1;
 
-        if(integer<=32) {
-            rnd = String.valueOf(bukvi.charAt(integer));
-        }else {
-            rnd = String.valueOf(bukvi.charAt(integer-1));
+
+
+        for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
+            if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
+                rnd = rnd+String.valueOf(bukvi.charAt(random_nomer(min,max)))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+conec_spisca:conec_spisca);
+            }else {
+                rnd = rnd+String.valueOf(bukvi.charAt(random_nomer(min,max)))+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+razdelitel:razdelitel);
+            }
+
         }
+
 
         //dialog****************************************************************
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
-        text_random = (HTextView)layout.findViewById(R.id.text_dialog);
-        text_random.setAnimateType(HTextViewType.TYPER);
-        text_random.animateText(rnd); // animate
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setMovementMethod(new ScrollingMovementMethod());
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
         dialog_copy.setOnClickListener(this);
@@ -665,8 +724,9 @@ public class Main extends Activity implements View.OnClickListener {
         ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
         //**********************************************************************
 
-
-        AlertDialog.Builder bulder = new AlertDialog.Builder(this);
+        layout.setMinimumWidth(width_d);
+        layout.setMinimumHeight(width_d/2);
+        AlertDialog.Builder bulder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         bulder.setView(layout);
         alert =  bulder.create();
         alert.show();
@@ -675,22 +735,33 @@ public class Main extends Activity implements View.OnClickListener {
 
     public void fraza_function(){
 
+        rnd = "";
+        String razdelitel = save_read("razdelitel_spiska");
+        String conec_spisca = save_read("conec_spiska");
+        String text_k_numeracii = save_read("text_k_numeracii");
+        boolean numer = save_read("num_spisok").length()>0;
+
         String slova[] = getResources().getStringArray(R.array.slova);
 
-        final Integer integer = random_nomer(0, slova.length);
+
+        int min = 0;
+        int max = slova.length-1;
 
 
+        for (int i = 0;i<Integer.valueOf(size_numbers.getEditText().getText().toString());i++){
+            if((i+1)==Integer.valueOf(size_numbers.getEditText().getText().toString())){
+                rnd = rnd+slova[random_nomer(min,max)].toString()+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+conec_spisca:conec_spisca);
+            }else {
+                rnd = rnd+slova[random_nomer(min,max)].toString()+((numer)?"("+String.valueOf(i+1)+text_k_numeracii+")"+razdelitel:razdelitel);
+            }
 
-        if(integer<=slova.length) {
-            rnd = slova[integer].toString();
-        }else {
-            rnd = slova[integer-1].toString();
         }
 
         //dialog****************************************************************
         inflater = getLayoutInflater();
         layout = inflater.inflate(R.layout.custon_dialog, null);
 
+        ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setMovementMethod(new ScrollingMovementMethod());
         ((AutoScaleTextView)layout.findViewById(R.id.text_dialog)).setText(rnd);
 
         dialog_copy  = (Button)layout.findViewById(R.id.button_dialog_copy);
@@ -700,9 +771,11 @@ public class Main extends Activity implements View.OnClickListener {
         dioalog_rand = (Button)layout.findViewById(R.id.button_dialog_rand);
         dioalog_rand.setOnClickListener(this);
         ((LinearLayout)layout.findViewById(R.id.dialog_fon)).setBackgroundColor(FON);
-        //**********************************************************************
 
-        AlertDialog.Builder bulder = new AlertDialog.Builder(this);
+        //**********************************************************************
+        layout.setMinimumWidth(width_d);
+        layout.setMinimumHeight(width_d/2);
+        AlertDialog.Builder bulder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         bulder.setView(layout);
 
         alert =  bulder.create();
@@ -847,7 +920,7 @@ public class Main extends Activity implements View.OnClickListener {
 
     public void open_info(View view) {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         final View content = LayoutInflater.from(Main.this).inflate(R.layout.info_text, null);
         content.setMinimumHeight(heigh_d-5);
         content.setMinimumWidth(width_d-5);
@@ -865,11 +938,67 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
+    public void open_setting_vivod(View view) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
+        final View content = LayoutInflater.from(Main.this).inflate(R.layout.setting_vivod, null);
+        content.setMinimumHeight(heigh_d-5);
+        content.setMinimumWidth(width_d-5);
+        builder.setView(content);
+        final AlertDialog al= builder.create();
+        al.show();
+
+
+        if(save_read("num_spisok").length()>0){
+            ((CheckBox)content.findViewById(R.id.checkBox_numeracia_spiska)).setChecked(true);
+            ((Lab_text)content.findViewById(R.id.text_k_numeracii)).setVisibility(View.VISIBLE);
+        }else{
+            ((CheckBox)content.findViewById(R.id.checkBox_numeracia_spiska)).setChecked(false);
+            ((Lab_text)content.findViewById(R.id.text_k_numeracii)).setVisibility(View.GONE);
+        }
+
+
+       ((Lab_text)content.findViewById(R.id.text_k_numeracii)).getEditText().setText(save_read("text_k_numeracii"));
+       ((Lab_text)content.findViewById(R.id.razdelitel_spiska)).getEditText().setText(save_read("razdelitel_spiska"));
+       ((Lab_text)content.findViewById(R.id.simfol_conca_spiska)).getEditText().setText(save_read("conec_spiska"));
+
+
+
+        ((Button) content.findViewById(R.id.button_gotovo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                //разделитель списка
+                save_value("razdelitel_spiska",((Lab_text)content.findViewById(R.id.razdelitel_spiska)).getEditText().getText().toString());
+
+                //символ в конце списка
+                save_value("conec_spiska",((Lab_text)content.findViewById(R.id.simfol_conca_spiska)).getEditText().getText().toString());
+
+
+                //нумерация списка
+                if(((CheckBox)content.findViewById(R.id.checkBox_numeracia_spiska)).isChecked()){
+                    save_value("num_spisok","est");
+
+                }else {
+                    save_value("num_spisok","");
+                }
+
+                //дополнительный текст к нумерации
+                save_value("text_k_numeracii",((Lab_text)content.findViewById(R.id.text_k_numeracii)).getEditText().getText().toString());
+
+                al.dismiss();
+            }
+        });
+        ((LinearLayout)content.findViewById(R.id.fon_setting_vivod)).setBackgroundColor(FON);
+
+    }
+
 
 
     public void open_menu(View view) {
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder( new ContextThemeWrapper(this, android.R.style.Theme_Holo));
         final View content = LayoutInflater.from(Main.this).inflate(R.layout.custom_dialog_menu, null);
         content.setMinimumHeight(heigh_d/3);
         content.setMinimumWidth(heigh_d/3);
@@ -889,16 +1018,8 @@ public class Main extends Activity implements View.OnClickListener {
         ((Button)content.findViewById(R.id.MENU_ID_setting)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                if(isOnline(Main.this)){
-//                    Intent it = new Intent(Intent.ACTION_SEND);
-//                    it.setData(Uri.parse("mailto:58627@bk.ru"));
-//                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    Main.this.startActivity(it);
-//                }else{
-//                    Toast.makeText(Main.this,"Нету интернету",Toast.LENGTH_LONG).show();
-//                }
-
+                al.dismiss();
+                open_setting_vivod(v);
             }
         });
         ((Button)content.findViewById(R.id.button_info)).setOnClickListener(new View.OnClickListener() {

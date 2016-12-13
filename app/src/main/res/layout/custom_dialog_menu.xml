@@ -9,12 +9,14 @@
     android:background="@android:color/darker_gray">
 
     <Button
-        android:text="Настройки"
+        android:text="Настройки вывода"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/MENU_ID_setting"
         android:background="@android:color/transparent"
-        android:visibility="gone" />
+        android:visibility="visible"
+        android:textSize="18sp"
+        android:padding="10dp" />
 
     <Button
         android:text=" О программе"

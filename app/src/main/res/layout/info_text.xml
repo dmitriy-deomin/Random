@@ -10,5 +10,6 @@
         android:layout_height="match_parent"
         android:id="@+id/text_info_la"
         android:gravity="center"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:padding="20dp" />
 </LinearLayout>

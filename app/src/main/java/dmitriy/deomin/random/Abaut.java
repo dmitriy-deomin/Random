@@ -1,11 +1,14 @@
 package dmitriy.deomin.random;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,6 +59,7 @@ public class Abaut extends Activity {
 
         hTextView.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
+        ((ImageButton)findViewById(R.id.imageButton_vk)).setVisibility(View.VISIBLE);
     }
 
     public void finish(View view) {
@@ -77,6 +81,11 @@ public class Abaut extends Activity {
                 }
             });
         }
+    }
+
+    public  void opengruppa(View view) {
+        Intent browseIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/random_deomin"));
+        startActivity(browseIntent);
     }
 
     private String getVersion(){
