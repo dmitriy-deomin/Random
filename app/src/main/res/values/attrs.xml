@@ -5,4 +5,8 @@
     <declare-styleable name="AutoScaleTextView">
 	    <attr name="minTextSize" format="dimension" />
 	</declare-styleable>
+
+
+
+
 </resources>
