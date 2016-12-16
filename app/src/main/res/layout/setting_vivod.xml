@@ -31,6 +31,66 @@
         android:hint='Символ в конце списка (".")'
         android:paddingBottom="20dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Кнопки на главном экране" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkBox_Chislo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Число"
+                android:textSize="8sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxDrob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Дробь"
+                android:textSize="8sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Цвет"
+                android:textSize="8sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxBukva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Буква"
+                android:textSize="8sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSlovo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Слово"
+                android:textSize="8sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <Button
         android:text="Сохранить"
         android:layout_width="match_parent"

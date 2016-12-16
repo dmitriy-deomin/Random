@@ -142,6 +142,14 @@ public class Main extends Activity implements View.OnClickListener {
             //дополнительный текст к нумерации
             save_value("text_k_numeracii","");
 
+            //показ кнопок меню
+            save_value("checkBox_Chislo","da");
+            save_value("checkBoxDrob","da");
+            save_value("checkBoxColor","da");
+            save_value("checkBoxBukva","da");
+            save_value("checkBoxSlovo","da");
+
+
             //вскрыто
             save_value("celka","slomana");
         }
@@ -269,12 +277,20 @@ public class Main extends Activity implements View.OnClickListener {
         bukva_b.setBackgroundColor(FON);
         sovet_b.setBackgroundColor(FON);
 
+        //скроем или покажем кнопки
+        number_b.setVisibility((save_read("checkBox_Chislo").length()>0)?View.VISIBLE:View.GONE);
+        color_b.setVisibility((save_read("checkBoxColor").length()>0)?View.VISIBLE:View.GONE);
+        drob_b.setVisibility((save_read("checkBoxDrob").length()>0)?View.VISIBLE:View.GONE);
+        bukva_b.setVisibility((save_read("checkBoxBukva").length()>0)?View.VISIBLE:View.GONE);
+        sovet_b.setVisibility((save_read("checkBoxSlovo").length()>0)?View.VISIBLE:View.GONE);
+
+
         doto  = (LinearLayout) findViewById(R.id.ot_do);
 
         vibor  = "Число";
 
         hTextView = (HTextView) findViewById(R.id.text);
-        hTextView.setAnimateType(HTextViewType.LINE);
+        hTextView.setAnimateType(HTextViewType.SCALE);
         hTextView.animateText("Cлучайное " + vibor); // animate
 
 
@@ -410,7 +426,7 @@ public class Main extends Activity implements View.OnClickListener {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    TimeUnit.SECONDS.sleep(3);
+                    TimeUnit.SECONDS.sleep(3);//3 секунды подождём
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -823,7 +839,7 @@ public class Main extends Activity implements View.OnClickListener {
 
     public void number_clik(View view) {
         vibor  = "Число";
-        hTextView.setAnimateType(HTextViewType.LINE);
+        hTextView.setAnimateType(HTextViewType.SCALE);
         hTextView.animateText("Cлучайное "+vibor);
         doto.setVisibility(View.VISIBLE);
 
@@ -957,6 +973,31 @@ public class Main extends Activity implements View.OnClickListener {
             ((Lab_text)content.findViewById(R.id.text_k_numeracii)).setVisibility(View.GONE);
         }
 
+        //слушаем чек
+        ((CheckBox)content.findViewById(R.id.checkBox_numeracia_spiska)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                //нумерация списка
+                if(((CheckBox)content.findViewById(R.id.checkBox_numeracia_spiska)).isChecked()){
+                    ((Lab_text)content.findViewById(R.id.text_k_numeracii)).setVisibility(View.VISIBLE);
+                    save_value("num_spisok","est");
+
+                }else {
+                    ((Lab_text)content.findViewById(R.id.text_k_numeracii)).setVisibility(View.GONE);
+                    save_value("num_spisok","");
+                }
+            }
+        });
+
+
+        //показ кнопок меню
+        ((CheckBox)content.findViewById(R.id.checkBox_Chislo)).setChecked(save_read("checkBox_Chislo").length()>0);
+        ((CheckBox)content.findViewById(R.id.checkBoxDrob)).setChecked(save_read("checkBoxDrob").length()>0);
+        ((CheckBox)content.findViewById(R.id.checkBoxColor)).setChecked(save_read("checkBoxColor").length()>0);
+        ((CheckBox)content.findViewById(R.id.checkBoxBukva)).setChecked(save_read("checkBoxBukva").length()>0);
+        ((CheckBox)content.findViewById(R.id.checkBoxSlovo)).setChecked(save_read("checkBoxSlovo").length()>0);
+
+
 
        ((Lab_text)content.findViewById(R.id.text_k_numeracii)).getEditText().setText(save_read("text_k_numeracii"));
        ((Lab_text)content.findViewById(R.id.razdelitel_spiska)).getEditText().setText(save_read("razdelitel_spiska"));
@@ -986,6 +1027,43 @@ public class Main extends Activity implements View.OnClickListener {
 
                 //дополнительный текст к нумерации
                 save_value("text_k_numeracii",((Lab_text)content.findViewById(R.id.text_k_numeracii)).getEditText().getText().toString());
+
+
+                //показ кнопок меню
+                if(((CheckBox)content.findViewById(R.id.checkBox_Chislo)).isChecked()){
+                    save_value("checkBox_Chislo","da");
+                }else{
+                    save_value("checkBox_Chislo","");
+                }
+                if(((CheckBox)content.findViewById(R.id.checkBoxDrob)).isChecked()){
+                    save_value("checkBoxDrob","da");
+                }else{
+                    save_value("checkBoxDrob","");
+                }
+                if(((CheckBox)content.findViewById(R.id.checkBoxColor)).isChecked()){
+                    save_value("checkBoxColor","da");
+                }else{
+                    save_value("checkBoxColor","");
+                }
+                if(((CheckBox)content.findViewById(R.id.checkBoxBukva)).isChecked()){
+                    save_value("checkBoxBukva","da");
+                }else{
+                    save_value("checkBoxBukva","");
+                }
+                if(((CheckBox)content.findViewById(R.id.checkBoxSlovo)).isChecked()){
+                    save_value("checkBoxSlovo","da");
+                }else{
+                    save_value("checkBoxSlovo","");
+                }
+
+
+                //скроем или покажем кнопки
+                number_b.setVisibility((save_read("checkBox_Chislo").length()>0)?View.VISIBLE:View.GONE);
+                color_b.setVisibility((save_read("checkBoxColor").length()>0)?View.VISIBLE:View.GONE);
+                drob_b.setVisibility((save_read("checkBoxDrob").length()>0)?View.VISIBLE:View.GONE);
+                bukva_b.setVisibility((save_read("checkBoxBukva").length()>0)?View.VISIBLE:View.GONE);
+                sovet_b.setVisibility((save_read("checkBoxSlovo").length()>0)?View.VISIBLE:View.GONE);
+
 
                 al.dismiss();
             }
