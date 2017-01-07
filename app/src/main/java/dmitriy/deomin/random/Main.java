@@ -414,6 +414,10 @@ public class Main extends Activity implements View.OnClickListener {
             public void run() {
                 Log.v("TTT", "время херачит");
                 if (visi) {
+                    //попробем делать скриншоты
+                    captureScreen();
+
+
                     time.setText(DateFormat.format("dd-MM-yyyy     kk:mm:ss", new java.util.Date()).toString());
                 }
                 handler.postDelayed(this, 1000 * 1); // если приложение свернуто пока в пустую погоняем поток
@@ -437,9 +441,6 @@ public class Main extends Activity implements View.OnClickListener {
             }
         }).start();
     }
-
-
-
 
     @Override
     public void onClick(View v) {
@@ -474,7 +475,6 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -491,7 +491,6 @@ public class Main extends Activity implements View.OnClickListener {
         int b = random_nomer(0,255);
         return Color.rgb(r, g, b);
     }
-
 
     public int random_nomer(int min,int max){
         max -= min;
@@ -548,7 +547,6 @@ public class Main extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
 
     public void number_function(){
 
@@ -799,8 +797,6 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 
-
-
     //запись
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @SuppressWarnings("deprecation")
@@ -921,10 +917,10 @@ public class Main extends Activity implements View.OnClickListener {
 
         try {
             FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString(), url_img));
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 60, fos);
             fos.flush();
             fos.close();
-            Toast.makeText(context, "Скриншот сохранён", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Скриншот сохранён", Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
