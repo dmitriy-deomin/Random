@@ -87,7 +87,6 @@ public class Abaut extends Activity {
         Intent browseIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/random_deomin"));
         startActivity(browseIntent);
     }
-
     private String getVersion(){
         try {
             PackageManager packageManager=getPackageManager();
@@ -98,4 +97,5 @@ public class Abaut extends Activity {
             return "?";
         }
     }
+
 }

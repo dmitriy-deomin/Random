@@ -9,9 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -21,13 +22,9 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
@@ -42,23 +39,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import android.widget.Toast;;
 import com.hanks.htextview.HTextView;
 import com.hanks.htextview.HTextViewType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.io.IOException;;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -101,12 +90,6 @@ public class Main extends Activity implements View.OnClickListener {
 
      int width_d;
      int heigh_d;
-
-    //  static public Typeface face;
-
-    boolean visi;//true при активном приложении
-    boolean time_show_reklamma; //
-    static public int TIME_SHOW_REKLAMA; // сколько показывать рекламу
 
     //сохранялка
     public static SharedPreferences mSettings; // сохранялка
@@ -317,43 +300,6 @@ public class Main extends Activity implements View.OnClickListener {
 
         TiltEffectAttacher.attach(findViewById(R.id.button_generete));
 
-        visi = true;  // приложение активно
-        TIME_SHOW_REKLAMA = 10; //секнды показа рекламы
-
-        //реклама
-        final AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        time_show_reklamma = false;  //если бы черти isVisible mAdView сделали это херня бы не пригодилась
-
-        //если нет интеренета скроем еЁ
-        if (!isOnline(context)) {
-            mAdView.setVisibility(View.GONE);
-        } else {
-            //через 10 секунд скроем её(пока так потом можно регулировать от количества постов)
-            final Handler handler = new Handler();
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.v("TTT","ebasit");
-                    if (visi) {
-                        if (time_show_reklamma) {
-                            mAdView.setVisibility(View.GONE); // скроем рекламу и поток больше не запустится
-                        } else {
-                            //иначе покажем
-                            mAdView.setVisibility(View.VISIBLE);
-                            time_show_reklamma = true; // это нужно чтоб знать что реклама показна
-                            handler.postDelayed(this, 1000 * TIME_SHOW_REKLAMA); // через 10 секунд вырубим рекламу
-                        }
-                    }else {
-                        handler.postDelayed(this, 1000 * 2); // если приложение свернуто пока в пустую погоняем поток
-                    }
-                }
-            });
-        }
-
-
         //посмотрим если есть сохранёный свет фона поставим его иначе рандомно
         if(save_read("fon_color").length()>0){
             FON = Integer.valueOf(save_read("fon_color"));
@@ -371,6 +317,7 @@ public class Main extends Activity implements View.OnClickListener {
 
 
         time = (TextView)findViewById(R.id.time);
+        time.setText("Random "+getVersion());
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -405,23 +352,6 @@ public class Main extends Activity implements View.OnClickListener {
                     //
                 }
                 return true;
-            }
-        });
-
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.v("TTT", "время херачит");
-                if (visi) {
-                    //попробем делать скриншоты
-                    captureScreen();
-
-
-                    time.setText(DateFormat.format("dd-MM-yyyy     kk:mm:ss", new java.util.Date()).toString());
-                }
-                handler.postDelayed(this, 1000 * 1); // если приложение свернуто пока в пустую погоняем поток
-
             }
         });
     }
@@ -1149,19 +1079,14 @@ public class Main extends Activity implements View.OnClickListener {
 
     }
 //sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        visi = false;
+private String getVersion(){
+    try {
+        PackageManager packageManager=getPackageManager();
+        PackageInfo packageInfo=packageManager.getPackageInfo(getPackageName(),0);
+        return packageInfo.versionName;
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        visi = true;
+    catch (  PackageManager.NameNotFoundException e) {
+        return "?";
     }
-
-
+}
 }
